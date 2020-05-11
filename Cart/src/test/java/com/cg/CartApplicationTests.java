@@ -38,10 +38,7 @@ import org.junit.jupiter.api.Assertions;
 @SpringBootTest
 class CartApplicationTests {
  
-@Autowired
-private CartService cartService;
-
-	@MockBean
+@MockBean
 	CartRepository cartRepository;
 	
 	
