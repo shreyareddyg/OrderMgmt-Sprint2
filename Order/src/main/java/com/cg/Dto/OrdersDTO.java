@@ -86,4 +86,29 @@ public class OrdersDTO {
     public void setOrderDispatchTime(Date orderDispatchTime) {
         this.orderDispatchTime = orderDispatchTime;
     }
+
+    
+    
+    
+	public OrdersDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public OrdersDTO(long id, String orderId, String userId, String addressId, String orderDispatchStatus,
+			Date orderInitiateTime, Date orderDispatchTime, List<OrderProductMap> products) {
+		super();
+		this.id = id;
+		this.orderId = orderId;
+		this.userId = userId;
+		this.addressId = addressId;
+		this.orderDispatchStatus = orderDispatchStatus;
+		this.orderInitiateTime = orderInitiateTime;
+		this.orderDispatchTime = orderDispatchTime;
+		this.products = products;
+	}
+    
+    
+    
 }
+

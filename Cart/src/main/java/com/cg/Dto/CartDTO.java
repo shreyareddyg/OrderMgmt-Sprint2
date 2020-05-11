@@ -40,4 +40,22 @@ public class CartDTO {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+	public CartDTO() {
+		super();
+	
+	}
+
+	public CartDTO(long id, String userId, String productId, int quantity) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.productId = productId;
+		this.quantity = quantity;
+	}
+
+
+
+
+    
 }

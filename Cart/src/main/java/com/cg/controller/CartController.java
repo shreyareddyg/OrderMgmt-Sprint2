@@ -53,4 +53,10 @@ public class CartController {
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
+	/*@PutMapping(path="/updateqty/{quantity}")
+	public ResponseEntity<Result> updateQuantityFromCart(@PathVariable String quantity) {
+		cartService.updateQuantity(quantity);
+		return new ResponseEntity<>(new Result("Quantity Updated", "Completed"),HttpStatus.OK);
+	}*/
+	
 }

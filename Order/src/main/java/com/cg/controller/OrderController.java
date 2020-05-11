@@ -45,19 +45,10 @@ public class OrderController {
 	}
 
 	
-/*	@GetMapping(path="/order")
-	public ResponseEntity<OrdersDTO> getOrderByID(@RequestParam String orderId) {
-		// This returns a JSON or XML with the user
-		OrdersDTO order = orderService.findOrder(orderId);
-		return new ResponseEntity<>(order,HttpStatus.OK);
-	}
 
-	*/
-	
-	@GetMapping(path="/all")
-	public ResponseEntity<Iterable<OrdersDTO>> getAllOrders() {
-		// This returns a JSON or XML with the users
-		 Iterable<OrdersDTO> orders = orderService.getAllOders();
+	@GetMapping(path="/getorder/{userId}")
+	public ResponseEntity<Iterable<OrdersDTO>> getOrders(@PathVariable String userId) {
+		 Iterable<OrdersDTO> orders = orderService.findOrderByUserId(userId);
 		 return new ResponseEntity<>(orders,HttpStatus.OK);
 	}
 }

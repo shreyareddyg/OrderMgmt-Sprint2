@@ -31,7 +31,7 @@ public class CartService {
 
 	    public List<CartDTO> findCartByUserId(String userId) throws CartException, OrderProjectException {
 	        if (userId == null || userId.isEmpty()) {
-	            throw new CartException(ErrorCode.BAD_DATA, "Valid User Id is required");
+	            throw new CartException(ErrorCode.BAD_DATA, "Valid User Id is required here");
 	        }
 	        try {
 	            return cartRepository.findByUserId(userId);
@@ -78,4 +78,9 @@ public class CartService {
 	        }
 	        return true;
 	    }
+
+	    
+		public void updateQuantity(CartDTO cart) {
+			cartRepository.save(cart);
+		}
 }

@@ -1,5 +1,7 @@
 package com.cg.Service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +39,9 @@ public class OrderService {
                 String orderId = UUID.randomUUID().toString();
                 order.setOrderInitiateTime(new Date());
                 order.setOrderId(orderId);
+                Calendar c = Calendar.getInstance();
+                c.add(Calendar.DATE,3);
+                order.setOrderDispatchTime(c.getTime());
                 orderRepository.save(order);
                 List<CartDTO> products = cartRepository.findByUserId(order.getUserId());
                 for (CartDTO cart : products) {
@@ -58,6 +63,7 @@ public class OrderService {
 
     }
 
+    
     public void removeOrder(String orderId) throws OrderException, OrderProjectException {
         if (orderId == null || orderId.isEmpty()) {
             throw new OrderException(ErrorCode.BAD_DATA, "Valid Order Id is required");
@@ -70,21 +76,19 @@ public class OrderService {
         }
     }
 
-    public OrdersDTO findOrder(String orderId) throws OrderException, OrderProjectException {
-        if (orderId == null || orderId.isEmpty()) {
-            throw new OrderException(ErrorCode.BAD_DATA, "Valid Order Id is required");
-        }
-        try {
-            return orderRepository.findByOrderId(orderId);
 
-        } catch (Exception e) {
-            throw new OrderProjectException(ErrorCode.SYSTEM_EXCEPTION, "Exception while writing data to persistant layer", e);
-        }
-    }
 
-    public Iterable<OrdersDTO> getAllOders() throws OrderProjectException {
+    public Iterable<OrdersDTO> findOrderByUserId(String userId) throws OrderProjectException {
+    	 Iterable<OrdersDTO> orders = new ArrayList<OrdersDTO>();
     	 try {
-             Iterable<OrdersDTO> orders = orderRepository.findAll();
+    		 if (userId == null || userId.isEmpty()) {
+    			 orders= orderRepository.findAll();
+    	           // throw new OrderException(ErrorCode.BAD_DATA, "Valid userId  is required");
+    	        }
+    		 else
+    		 {
+    			 orders = orderRepository.findByUserId(userId);
+    		 }
              for(OrdersDTO order : orders){
                  List<OrderProductMap> products = orderProductMapRepository.getOrderProductMapByOrderId(order.getOrderId());
                  order.setProducts(products);
@@ -95,6 +99,11 @@ public class OrderService {
             throw new OrderProjectException(ErrorCode.SYSTEM_EXCEPTION, "Exception while writing data to persistant layer", e);
         }
     }
+    
+    
+    
+    
+    
     private Boolean validateOrder(OrdersDTO order) throws OrderException {
         if (order.getAddressId() == null || order.getAddressId().isEmpty()) {
             throw new OrderException(ErrorCode.BAD_DATA, "Valid Address Id is required");
@@ -105,5 +114,7 @@ public class OrderService {
         }
         return true;
     }
+
+
 
 }
