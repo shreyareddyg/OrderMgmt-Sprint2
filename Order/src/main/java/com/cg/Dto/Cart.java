@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity 
 @Table(name = "Cart")
-public class CartDTO {
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

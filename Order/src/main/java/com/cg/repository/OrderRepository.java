@@ -1,19 +1,17 @@
 package com.cg.repository;
 
-import com.cg.Dto.CartDTO;
-import com.cg.Dto.OrdersDTO;
+import com.cg.Dto.Orders;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 
-public interface OrderRepository extends CrudRepository<OrdersDTO, Integer> {
+public interface OrderRepository extends CrudRepository<Orders, Integer> {
 
-	List<OrdersDTO> findByUserId(String userId);
+	List<Orders> findByUserId(String userId);
 
     void deleteByOrderId(String orderId);
 }

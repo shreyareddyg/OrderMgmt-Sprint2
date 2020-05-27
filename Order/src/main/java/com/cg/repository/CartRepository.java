@@ -1,6 +1,6 @@
 package com.cg.repository;
 
-import com.cg.Dto.CartDTO;
+import com.cg.Dto.Cart;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface CartRepository extends CrudRepository<CartDTO, Integer> {
+public interface CartRepository extends CrudRepository<Cart, Integer> {
 
 	
-	List<CartDTO> findByUserId(String userId);
+	List<Cart> findByUserId(String userId);
 
     void deleteByUserIdAndProductId(String userId, String productId);
 }

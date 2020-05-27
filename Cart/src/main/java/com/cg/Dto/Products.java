@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity 
 @Table(name = "products_data")
-public class ProductsDTO {
+public class Products {
 
 	@Id
 	private String productid;

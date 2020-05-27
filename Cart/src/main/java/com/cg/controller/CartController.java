@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cg.Dto.CartDTO;
-import com.cg.Service.CartService;
+import com.cg.Dto.Cart;
+import com.cg.service.CartService;
+import com.cg.service.ICartService;
 import com.cg.util.Result;
 
 
@@ -26,37 +27,37 @@ import com.cg.util.Result;
 public class CartController {
 
 	@Autowired
-	private CartService cartService;
+	private ICartService icartService;
 
-	
+	//The parameters Cart(userId, productId, quantity) are
+	//passed to the method and is added to the cart.
 	@PostMapping(path="/addtocart")
-	public ResponseEntity<Result> addItemToCart(@RequestBody CartDTO cart) {
-		cartService.addProductToCart(cart);
+	public ResponseEntity<Result> addItemToCart(@RequestBody Cart cart) {
+		icartService.addProductToCart(cart);
 		return new ResponseEntity<>(new Result("Added To Cart", "Completed"), HttpStatus.OK);
 	}
 
+	// It is for getting the list of products added to cart
 	@GetMapping(path="/products/{userId}")
-	public ResponseEntity<List<CartDTO>> getProductsFromCart(@PathVariable String userId) {
-		List<CartDTO> cart = cartService.findCartByUserId(userId);
+	public ResponseEntity<List<Cart>> getProductsFromCart(@PathVariable String userId) {
+		List<Cart> cart = icartService.findCartByUserId(userId);
 		return new ResponseEntity<>(cart,HttpStatus.OK);
 	}
 
+	//Update the cart by changing it's values
 	@PutMapping(path="/addtocart")
-	public ResponseEntity<Result> updateProductsFromCart(@RequestBody CartDTO cart) {
-		cartService.updateCart(cart);
+	public ResponseEntity<Result> updateProductsFromCart(@RequestBody Cart cart) {
+		icartService.updateCart(cart);
 		return new ResponseEntity<>(new Result("Cart Updated", "Completed"),HttpStatus.OK);
 	}
 
+	//Delete the product from the cart according to the user
 	@DeleteMapping(path="/{userId}/{productId}")
 	public ResponseEntity<Void> removeProductFromCart(@PathVariable String userId, @PathVariable String productId) {
-		cartService.deleteProductFromCart(userId,productId);
+		icartService.deleteProductFromCart(userId,productId);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	
-	/*@PutMapping(path="/updateqty/{quantity}")
-	public ResponseEntity<Result> updateQuantityFromCart(@PathVariable String quantity) {
-		cartService.updateQuantity(quantity);
-		return new ResponseEntity<>(new Result("Quantity Updated", "Completed"),HttpStatus.OK);
-	}*/
+
 	
 }

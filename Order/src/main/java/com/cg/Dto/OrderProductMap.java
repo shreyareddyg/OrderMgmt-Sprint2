@@ -19,49 +19,50 @@ public class OrderProductMap {
 
     private String productId;
 
-    private String ProductUIN;
-
     private int productStatus;
-
+    
     private int giftStatus;
 
-    public String getOrderId() {
-        return orderId;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public String getProductId() {
-        return productId;
-    }
+	public String getOrderId() {
+		return orderId;
+	}
 
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 
-    public String getProductUIN() {
-        return ProductUIN;
-    }
+	public String getProductId() {
+		return productId;
+	}
 
-    public void setProductUIN(String productUIN) {
-        ProductUIN = productUIN;
-    }
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 
-    public int getProductStatus() {
-        return productStatus;
-    }
+	public int getProductStatus() {
+		return productStatus;
+	}
 
-    public void setProductStatus(int productStatus) {
-        this.productStatus = productStatus;
-    }
+	public void setProductStatus(int productStatus) {
+		this.productStatus = productStatus;
+	}
 
-    public int getGiftStatus() {
-        return giftStatus;
-    }
+	public int getGiftStatus() {
+		return giftStatus;
+	}
 
-    public void setGiftStatus(int giftStatus) {
-        this.giftStatus = giftStatus;
-    }
+	public void setGiftStatus(int giftStatus) {
+		this.giftStatus = giftStatus;
+	}
+
+   
+    
 }

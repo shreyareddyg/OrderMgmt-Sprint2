@@ -1,5 +1,6 @@
 package com.cg.exceptions;
 
+@SuppressWarnings("serial")
 public class CartException extends RuntimeException{
 
 	private final ErrorCode errorCode;

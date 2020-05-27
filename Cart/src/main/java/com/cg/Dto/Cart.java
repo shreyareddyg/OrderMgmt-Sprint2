@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity 
 @Table(name = "Cart")
-public class CartDTO {
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -41,12 +41,12 @@ public class CartDTO {
         this.quantity = quantity;
     }
 
-	public CartDTO() {
+	public Cart() {
 		super();
 	
 	}
 
-	public CartDTO(long id, String userId, String productId, int quantity) {
+	public Cart(long id, String userId, String productId, int quantity) {
 		super();
 		this.id = id;
 		this.userId = userId;

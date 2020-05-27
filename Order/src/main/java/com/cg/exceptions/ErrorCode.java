@@ -35,7 +35,7 @@ public enum ErrorCode {
         return message;
     }
 
-    //To-do there should be better way to do this
+
     public String getMessage(String parameter) {
         if (parameter == null) {
             return message;

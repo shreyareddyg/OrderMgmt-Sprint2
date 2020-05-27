@@ -1,7 +1,5 @@
 package com.cg.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cg.Dto.CartDTO;
-import com.cg.Dto.OrderProductMap;
-import com.cg.Dto.OrdersDTO;
-import com.cg.Service.OrderService;
+import com.cg.Dto.Orders;
+import com.cg.Service.IOrderService;
 import com.cg.util.Result;
 
 @RestController
@@ -28,27 +23,30 @@ public class OrderController {
 
 	
 	@Autowired
-	private OrderService orderService;
+	private IOrderService iorderService;
 	
 	
+	//The order gets deleted by providing its id
 	
 	@DeleteMapping(path="/{orderId}")
 	public ResponseEntity<Void> removeOrder(@PathVariable String orderId) {
-		orderService.removeOrder(orderId);
+		iorderService.removeOrder(orderId);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 
+	
+	// creating order by passing orders parameter
 	@PostMapping(path="/createOrder")
-	public ResponseEntity<Result> addNewOrder (@RequestBody OrdersDTO order) {
-		String orderId = orderService.createNewOrder(order);
+	public ResponseEntity<Result> addNewOrder (@RequestBody Orders order) {
+		String orderId = iorderService.createNewOrder(order);
 		return new ResponseEntity<>(new Result(orderId, "Created"), HttpStatus.OK);
 	}
 
 	
-
+//the details of the order are fetched according to the userid
 	@GetMapping(path="/getorder/{userId}")
-	public ResponseEntity<Iterable<OrdersDTO>> getOrders(@PathVariable String userId) {
-		 Iterable<OrdersDTO> orders = orderService.findOrderByUserId(userId);
+	public ResponseEntity<Iterable<Orders>> getOrders(@PathVariable String userId) {
+		 Iterable<Orders> orders = iorderService.findOrderByUserId(userId);
 		 return new ResponseEntity<>(orders,HttpStatus.OK);
 	}
 }

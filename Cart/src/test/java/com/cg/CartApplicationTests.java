@@ -28,10 +28,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import com.cg.Dto.CartDTO;
-
-import com.cg.Service.CartService;
+import com.cg.Dto.Cart;
 import com.cg.repository.CartRepository;
+import com.cg.service.CartService;
+
 import org.junit.jupiter.api.Assertions;
 
 @RunWith(SpringRunner.class)
@@ -56,13 +56,13 @@ class CartApplicationTests {
 		    final String baseUrl = "http://localhost:6501/cart/addtocart";
 		    URI uri = new URI(baseUrl);
 		 
-		CartDTO cart = new CartDTO();
+		Cart cart = new Cart();
 		cart.setProductId("103");
 		cart.setUserId("10");
 		cart.setQuantity(1);
 		  HttpHeaders headers = new HttpHeaders();
 	        headers.set("X-COM-PERSIST", "account successfully created ");      
-	        HttpEntity<CartDTO> request = new HttpEntity<>(cart, headers);
+	        HttpEntity<Cart> request = new HttpEntity<>(cart, headers);
 	        
 	        ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
 		    Assert.assertEquals(200, result.getStatusCodeValue());

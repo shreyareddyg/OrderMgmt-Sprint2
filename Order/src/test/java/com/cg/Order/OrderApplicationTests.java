@@ -27,9 +27,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import com.cg.Dto.CartDTO;
+import com.cg.Dto.Cart;
 import com.cg.Dto.OrderProductMap;
-import com.cg.Dto.OrdersDTO;
+import com.cg.Dto.Orders;
 import com.cg.Service.OrderService;
 import com.cg.repository.CartRepository;
 import com.cg.repository.OrderRepository;

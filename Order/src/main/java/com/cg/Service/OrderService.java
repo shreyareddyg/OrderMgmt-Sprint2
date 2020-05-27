@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cg.Dto.CartDTO;
+import com.cg.Dto.Cart;
 import com.cg.Dto.OrderProductMap;
-import com.cg.Dto.OrdersDTO;
+import com.cg.Dto.Orders;
 import com.cg.exceptions.ErrorCode;
 import com.cg.exceptions.OrderException;
 import com.cg.exceptions.OrderProjectException;
@@ -22,8 +22,9 @@ import com.cg.repository.OrderRepository;
 
 @Service
 @Transactional
-public class OrderService {
-
+public class OrderService implements IOrderService{
+	private static final String ACTION_1 = "Exception while writing data to persistant layer";
+	
     @Autowired
     private OrderRepository orderRepository;
 
@@ -33,7 +34,16 @@ public class OrderService {
     @Autowired
     private OrderProductMapRepository orderProductMapRepository;
 
-    public String createNewOrder(OrdersDTO order) throws OrderException, OrderProjectException {
+    
+    /*******************************************************************************************************
+	 * Function Name : createNewOrder 
+	 * Input Parameters :  Orders
+	 * Return Type : String 
+	 * Throws : OrderException, OrderProjectException
+	 * Description : to create order
+	 ********************************************************************************************************/
+
+    public String createNewOrder(Orders order)  throws OrderException, OrderProjectException{
         if (validateOrder(order)) {
             try {
                 String orderId = UUID.randomUUID().toString();
@@ -43,20 +53,17 @@ public class OrderService {
                 c.add(Calendar.DATE,3);
                 order.setOrderDispatchTime(c.getTime());
                 orderRepository.save(order);
-                List<CartDTO> products = cartRepository.findByUserId(order.getUserId());
-                for (CartDTO cart : products) {
+                List<Cart> products = cartRepository.findByUserId(order.getUserId());
+                for (Cart cart : products) {
                     OrderProductMap map = new OrderProductMap();
                     map.setOrderId(orderId);
-                    map.setProductStatus(0);
                     map.setProductId(cart.getProductId());
-                    map.setGiftStatus(0);
-                    map.setProductUIN("somethng");
                     orderProductMapRepository.save(map);
                     cartRepository.deleteByUserIdAndProductId(order.getUserId(), cart.getProductId());
                 }
                 return orderId;
             } catch (Exception e) {
-                throw new OrderProjectException(ErrorCode.SYSTEM_EXCEPTION, "Exception while writing data to persistant layer", e);
+                throw new OrderProjectException(ErrorCode.SYSTEM_EXCEPTION, ACTION_1, e);
             }
         }
         throw new OrderException(ErrorCode.BAD_DATA, "Valid date is required");
@@ -64,7 +71,15 @@ public class OrderService {
     }
 
     
-    public void removeOrder(String orderId) throws OrderException, OrderProjectException {
+    /*******************************************************************************************************
+	 * Function Name : removeOrder 
+	 * Input Parameters :  orderId
+	 * Return Type : void 
+	 * Throws : OrderException, OrderProjectException
+	 * Description : to delete order
+	 ********************************************************************************************************/
+  
+    public void removeOrder(String orderId)  throws OrderException, OrderProjectException{
         if (orderId == null || orderId.isEmpty()) {
             throw new OrderException(ErrorCode.BAD_DATA, "Valid Order Id is required");
         }
@@ -72,39 +87,49 @@ public class OrderService {
             orderRepository.deleteByOrderId(orderId);
             orderProductMapRepository.deleteByOrderId(orderId);
         } catch (Exception e) {
-            throw new OrderProjectException(ErrorCode.SYSTEM_EXCEPTION, "Exception while writing data to persistant layer", e);
+            throw new OrderProjectException(ErrorCode.SYSTEM_EXCEPTION,ACTION_1, e);
         }
     }
 
-
-
-    public Iterable<OrdersDTO> findOrderByUserId(String userId) throws OrderProjectException {
-    	 Iterable<OrdersDTO> orders = new ArrayList<OrdersDTO>();
+    /*******************************************************************************************************
+  	 * Function Name : findOrderByUserId 
+  	 * Input Parameters :  userId
+  	 * Return Type : Iterable 
+  	 * Throws : OrderProjectException
+  	 * Description : to show the list of orders according to user
+  	 ********************************************************************************************************/
+    
+    public Iterable<Orders> findOrderByUserId(String userId) throws OrderException, OrderProjectException{
+    	 Iterable<Orders> orders = new ArrayList<Orders>();
     	 try {
     		 if (userId == null || userId.isEmpty()) {
     			 orders= orderRepository.findAll();
-    	           // throw new OrderException(ErrorCode.BAD_DATA, "Valid userId  is required");
+    	            throw new OrderException(ErrorCode.BAD_DATA, "Valid userId  is required");
     	        }
     		 else
     		 {
     			 orders = orderRepository.findByUserId(userId);
     		 }
-             for(OrdersDTO order : orders){
+             for(Orders order : orders){
                  List<OrderProductMap> products = orderProductMapRepository.getOrderProductMapByOrderId(order.getOrderId());
                  order.setProducts(products);
              }
              return orders;
     	 }
         catch (Exception e) {
-            throw new OrderProjectException(ErrorCode.SYSTEM_EXCEPTION, "Exception while writing data to persistant layer", e);
+            throw new OrderProjectException(ErrorCode.SYSTEM_EXCEPTION, ACTION_1, e);
         }
     }
     
     
-    
-    
-    
-    private Boolean validateOrder(OrdersDTO order) throws OrderException {
+    /*******************************************************************************************************
+   	 * Function Name : validateOrder 
+   	 * Input Parameters :  order
+   	 * Return Type : Boolean 
+   	 * Throws : OrderException
+   	 * Description : to validate order
+   	 ********************************************************************************************************/
+         private Boolean validateOrder(Orders order) throws OrderException{
         if (order.getAddressId() == null || order.getAddressId().isEmpty()) {
             throw new OrderException(ErrorCode.BAD_DATA, "Valid Address Id is required");
         }

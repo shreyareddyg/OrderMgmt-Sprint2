@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class OrdersDTO {
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -90,12 +90,11 @@ public class OrdersDTO {
     
     
     
-	public OrdersDTO() {
+	public Orders() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public OrdersDTO(long id, String orderId, String userId, String addressId, String orderDispatchStatus,
+	public Orders(long id, String orderId, String userId, String addressId, String orderDispatchStatus,
 			Date orderInitiateTime, Date orderDispatchTime, List<OrderProductMap> products) {
 		super();
 		this.id = id;

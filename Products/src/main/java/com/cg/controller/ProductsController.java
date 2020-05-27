@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cg.Dto.ProductsDTO;
+import com.cg.Dto.Products;
+import com.cg.Service.IProductService;
 import com.cg.Service.ProductService;
 
 @RestController
@@ -18,11 +19,11 @@ public class ProductsController {
 
 	
 	@Autowired
-	private ProductService productService;
+	private IProductService iproductService;
 	
 	@GetMapping(path="/GetList")
-	public ResponseEntity<Iterable<ProductsDTO>> getList() {
-		 Iterable<ProductsDTO> products = productService.getAllOders();
+	public ResponseEntity<Iterable<Products>> getList() {
+		 Iterable<Products> products = iproductService.getAllOders();
 		 return new ResponseEntity<>(products,HttpStatus.OK); 
 	  }
 

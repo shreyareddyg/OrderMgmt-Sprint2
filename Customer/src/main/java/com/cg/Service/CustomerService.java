@@ -9,7 +9,7 @@ import com.cg.repository.CustomerRepository;
 
 @Service
 @Transactional
-public class CustomerService {
+public class CustomerService implements ICustomerService{
 
 	@Autowired
 	CustomerRepository customerRepository;

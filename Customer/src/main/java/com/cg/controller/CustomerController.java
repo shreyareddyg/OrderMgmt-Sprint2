@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.Dto.Customer;
 import com.cg.Service.CustomerService;
+import com.cg.Service.ICustomerService;
 import com.cg.util.Result;
 
 @RestController
@@ -20,21 +21,21 @@ import com.cg.util.Result;
 public class CustomerController {
 
 	@Autowired
-	CustomerService customerService;
+	ICustomerService icustomerService;
 	
 	
 	
 	@GetMapping(path="/users")
 	public ResponseEntity<Iterable<Customer>> getUsers() {
 		
-		Iterable<Customer> users = customerService.findAll();
+		Iterable<Customer> users = icustomerService.findAll();
 		return new ResponseEntity<>(users,HttpStatus.OK);
 	}
 
 	@PostMapping(path="/users")
 	public ResponseEntity<Result> postUsers(@RequestBody Customer customer) {
 		
-		customerService.save(customer);
+		icustomerService.save(customer);
 		return new ResponseEntity<>(new Result("Created", "Sucess"),HttpStatus.OK);
 	}
 }
